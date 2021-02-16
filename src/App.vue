@@ -14,8 +14,8 @@
         <el-form-item v-show="ruleForm.loop || ruleForm.loopBack" label="循环间隔时间" prop="interval">
           <el-input-number v-model="ruleForm.interval" size="small" /> 秒
         </el-form-item>
-        <el-table :data="ruleForm.stageTime" size="small" border style="width: 100%">
-          <el-table-column label="时间段（毫秒）" width="300">
+        <el-table :data="ruleForm.stageTime" height="300" size="small" border style="width: 100%">
+          <el-table-column label="时间段（毫秒）" width="200">
             <template #default="scoped">
               <div class="time">
                 <el-form-item>
@@ -28,17 +28,17 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="css" label="执行动作（css）" width="300">
+          <el-table-column prop="css" label="执行动作（css）">
             <template #default="scoped">
               <css-editor />
             </template>
           </el-table-column>
         </el-table>
+        <el-form-item>
+          <el-button type="primary" @click="addStep" size="small">添加时间段</el-button>
+          <el-button @click="resetForm('ruleForm')" size="small">重置</el-button>
+        </el-form-item>
       </el-form>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')" size="small">添加时间段</el-button>
-        <el-button @click="resetForm('ruleForm')" size="small">重置</el-button>
-      </el-form-item>
     </div>
     <div class="play-container">123</div>
   </div>
@@ -83,14 +83,28 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+    addStep() {
+      this.ruleForm.stageTime.push({
+        start: 0,
+        end: 1000,
+        css: "666",
+      });
+    },
   },
 };
 </script>
 
-
 <style scoped>
 .container {
   display: flex;
+}
+
+.container .controller {
+  width: 600px;
+}
+
+.container .play-container {
+  flex: 1;
 }
 
 .container .time {
